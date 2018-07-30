@@ -1,18 +1,18 @@
 defmodule CouponMarketplace do
+  use Application
+  alias CouponMarketplace.Repo
+
   @moduledoc """
-  Documentation for CouponMarketplace.
+    CouponMarketplace is an application that gives its users
+    a place to buy and sell coupons from one another.
   """
 
-  @doc """
-  Hello world.
+  def start(_type, _args) do
+    children = [
+      {Repo, []}
+    ]
 
-  ## Examples
-
-      iex> CouponMarketplace.hello
-      :world
-
-  """
-  def hello do
-    :world
+    opts = [strategy: :one_for_one, name: CouponMarketplace.Application]
+    Supervisor.start_link(children, opts)
   end
 end

@@ -20,6 +20,13 @@ use Mix.Config
 #
 #     config :logger, level: :info
 #
+config :coupon_marketplace, ecto_repos: [CouponMarketplace.Repo]
+
+config :coupon_marketplace, CouponMarketplace.Repo,
+  database: "coupon_marketplace_dev",
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost"
 
 # It is also possible to import configuration files, relative to this
 # directory. For example, you can emulate configuration per environment
@@ -27,4 +34,4 @@ use Mix.Config
 # Configuration from the imported file will override the ones defined
 # here (which is why it is important to import them last).
 #
-#     import_config "#{Mix.env}.exs"
+import_config "#{Mix.env}.exs"
