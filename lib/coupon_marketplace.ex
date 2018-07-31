@@ -1,6 +1,8 @@
 defmodule CouponMarketplace do
   use Application
   alias CouponMarketplace.Repo
+  alias CouponMarketplace.Interface.StateTree
+  alias CouponMarketplace.Interface.Router
 
   @moduledoc """
     CouponMarketplace is an application that gives its users
@@ -9,7 +11,9 @@ defmodule CouponMarketplace do
 
   def start(_type, _args) do
     children = [
-      {Repo, []}
+      {Repo, []},
+      {StateTree, [%{screen: :new_session}]},
+      {Router, []}
     ]
 
     opts = [strategy: :one_for_one, name: CouponMarketplace.Application]

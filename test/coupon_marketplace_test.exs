@@ -2,7 +2,7 @@ defmodule CouponMarketplaceTest do
   use ExUnit.Case, async: false
 
   describe "start/2" do
-    test "CouponMarketplace.Application and child Supervisors are started" do
+    test "CouponMarketplace.Application and child Supervisors are started" do        
       assert {:ok, pid} = CouponMarketplace.start(nil, nil)
       assert {:error, {:already_started, _pid}} = CouponMarketplace.start(nil, nil)
 
