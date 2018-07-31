@@ -1,6 +1,9 @@
 defmodule CouponMarketplace.Screens.NewSession do
   alias CouponMarketplace.Utils.Instructions
+  alias CouponMarketplace.Utils.NewIO
   alias CouponMarketplace.Interface.StateTree
+
+  @io Application.get_env(:coupon_marketplace, :io)
 
   def present do
     IO.puts """
@@ -9,10 +12,8 @@ defmodule CouponMarketplace.Screens.NewSession do
     Type "h" for help to show a list of options.
     """
 
-    input = IO.gets "> "
-    IO.puts "******"
-    IO.puts input
-    IO.puts "&&&&&&"
+    input = @io.gets "> "
+
     input
     |> String.trim_trailing()
     |> String.downcase()
