@@ -1,5 +1,7 @@
 use Mix.Config
 
+config :coupon_marketplace, :io, CouponMarketplace.Utils.NewIOMock
+
 config :coupon_marketplace, CouponMarketplace.Repo,
   database: "coupon_marketplace_test",
   username: "postgres",

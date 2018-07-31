@@ -8,7 +8,8 @@ defmodule CouponMarketplace.MixProject do
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      aliases: aliases()
+      aliases: aliases(),
+      elixirc_paths: elixirc_paths(Mix.env())
     ]
   end
 
@@ -16,7 +17,7 @@ defmodule CouponMarketplace.MixProject do
   def application do
     [
       mod: load_app_by_env(Mix.env()),
-      extra_applications: [:logger]
+      extra_applications: [:logger, :mox]
     ]
   end
 
@@ -24,7 +25,8 @@ defmodule CouponMarketplace.MixProject do
   defp deps do
     [
       {:postgrex, ">= 0.0.0"},
-      {:ecto, "~> 2.1"}
+      {:ecto, "~> 2.1"},
+      {:mox, "~> 0.3", only: :test}
     ]
   end
 
@@ -38,4 +40,7 @@ defmodule CouponMarketplace.MixProject do
 
   defp load_app_by_env(:test), do: []
   defp load_app_by_env(_), do: {CouponMarketplace, []}
+
+  defp elixirc_paths(:test), do: ["test/support", "lib"]
+  defp elixirc_paths(_),     do: ["lib"]
 end
