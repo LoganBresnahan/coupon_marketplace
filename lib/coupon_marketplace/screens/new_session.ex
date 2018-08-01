@@ -1,6 +1,5 @@
 defmodule CouponMarketplace.Screens.NewSession do
   alias CouponMarketplace.Utils.Instructions
-  alias CouponMarketplace.Utils.NewIO
   alias CouponMarketplace.Interface.StateTree
 
   @io Application.get_env(:coupon_marketplace, :io)
@@ -15,8 +14,6 @@ defmodule CouponMarketplace.Screens.NewSession do
     input = @io.gets "> "
 
     input
-    |> String.trim_trailing()
-    |> String.downcase()
     |> case do
       "r" ->
         StateTree.write(%{screen: :register})
@@ -24,10 +21,8 @@ defmodule CouponMarketplace.Screens.NewSession do
         StateTree.write(%{screen: :login})
       "a" ->
         StateTree.write(%{screen: :admin})
-      "h" ->
-        Instructions.help(:new_session)
       "e" ->
-        System.stop(0)
+        System.stop()
       _ ->
         Instructions.help(:new_session)
     end
