@@ -1,5 +1,6 @@
 defmodule CouponMarketplace.Repo.Migrations.AddUserTable do
   use Ecto.Migration
+  @disable_ddl_transaction true
 
   def change do
     create table(:users) do
@@ -10,8 +11,6 @@ defmodule CouponMarketplace.Repo.Migrations.AddUserTable do
       timestamps()
     end
 
-    execute "END;"
     create unique_index(:users, [:username], concurrently: true)
-    execute "BEGIN;"
   end
 end
