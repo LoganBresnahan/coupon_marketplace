@@ -17,7 +17,7 @@ defmodule CouponMarketplace.MixProject do
   def application do
     [
       mod: load_app_by_env(Mix.env()),
-      extra_applications: [:logger, :mox]
+      extra_applications: [:logger]
     ]
   end
 
@@ -26,6 +26,8 @@ defmodule CouponMarketplace.MixProject do
     [
       {:postgrex, ">= 0.0.0"},
       {:ecto, "~> 2.1"},
+      {:bcrypt_elixir, "~> 1.0"},
+      {:decimal, "~> 1.0"},
       {:mox, "~> 0.3", only: :test}
     ]
   end

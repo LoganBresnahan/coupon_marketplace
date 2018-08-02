@@ -3,5 +3,7 @@ defmodule CouponMarketplace.Utils.NewIO do
 
   def gets(prompt) do
     IO.gets(prompt)
+    |> String.trim_trailing()
+    |> String.downcase()
   end
 end
