@@ -1,6 +1,5 @@
 defmodule CouponMarketplace.Interface.StateTree do
   use GenServer
-  alias CouponMarketplace.Interface.Router
 
   #Client API
   def start_link([state_tree]) do

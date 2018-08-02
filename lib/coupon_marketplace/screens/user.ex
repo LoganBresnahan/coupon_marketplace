@@ -4,21 +4,27 @@ defmodule CouponMarketplace.Screens.User do
 
   @io Application.get_env(:coupon_marketplace, :io)
 
-  def present do
-    user_data = StateTree.read().user_data
-
+  def present(current_state) do
     IO.puts """
     *User Profile*
 
-    Username: #{user_data.username}
-    Balance: #{user_data.balance}
+    Username: #{current_state.user_data.username}
+    Balance: #{current_state.user_data.balance}
     """
     Instructions.help(:user)
 
     input = @io.gets("> ")
 
     case input do
-      _ -> Instructions.help(:user)
+      # "p" ->
+      #   #all your coupons screen?
+      # "r" ->
+      #   #all coupons?
+      "d" ->
+        %{current_state | screen: :deposit}
+        |> StateTree.write()
+      _ -> 
+        Instructions.help(:user)
     end
   end
 end

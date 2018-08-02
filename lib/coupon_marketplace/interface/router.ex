@@ -6,6 +6,7 @@ defmodule CouponMarketplace.Interface.Router do
   alias CouponMarketplace.Screens.Login
   alias CouponMarketplace.Screens.Admin
   alias CouponMarketplace.Screens.User
+  alias CouponMarketplace.Screens.Deposit
 
   def start_link(args) do
     Supervisor.start_link(__MODULE__, args, name: __MODULE__)
@@ -47,9 +48,18 @@ defmodule CouponMarketplace.Interface.Router do
   end
 
   defp operate(%{screen: :user}) do
-    User.present()
+    StateTree.read()
+    |> User.present()
 
     StateTree.read()
     |> operate()
   end
-end
+
+  defp operate(%{screen: :deposit}) do
+    StateTree.read()
+    |> Deposit.present()
+
+    StateTree.read()
+    |> operate()
+  end
+end 

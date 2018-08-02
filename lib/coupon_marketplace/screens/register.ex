@@ -32,7 +32,7 @@ defmodule CouponMarketplace.Screens.Register do
 
     case deposit do
       "20.00" ->
-        20.00
+        Decimal.new(deposit)
       _ ->
         accept_and_verify_deposit()
     end

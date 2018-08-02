@@ -9,6 +9,8 @@ defmodule CouponMarketplace.Utils.Instructions do
         register(data)
       :user ->
         user()
+      :deposit ->
+        deposit(data)
     end
   end
 
@@ -48,10 +50,25 @@ defmodule CouponMarketplace.Utils.Instructions do
 
   defp user do
     IO.puts """
+
     What would you like to do?
     "p" for post a coupon for sale
     "r" for request a coupon
     "d" for deposit more money
+    """
+  end
+
+  defp deposit(data) do
+    IO.puts """
+
+    *** Error updating your balance ***
+    #{readable_changeset_errors(data)}
+
+    What would you like to do?
+    "t" for try again
+    "lo" for logout
+    "e" for exit
+    "p" for your profile page
     """
   end
 
