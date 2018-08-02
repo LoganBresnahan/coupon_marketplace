@@ -12,9 +12,9 @@ defmodule CouponMarketplace.Screens.Login do
     *Login*
     """
     
-    username = @io.gets "User Name > "
+    username = @io.gets_credentials "User Name > "
 
-    password = @io.gets "Password > "
+    password = @io.gets_credentials "Password > "
 
     look_up_user(username, password)
   end
@@ -43,7 +43,7 @@ defmodule CouponMarketplace.Screens.Login do
     StateTree.write(
       %{
         screen: :user,
-        user_data: %{username: username, balance: schema.balance}
+        user: %{id: schema.id, username: username, balance: schema.balance}
       }
     )
   end
