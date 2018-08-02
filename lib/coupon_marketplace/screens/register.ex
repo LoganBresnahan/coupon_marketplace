@@ -13,10 +13,10 @@ defmodule CouponMarketplace.Screens.Register do
     """
 
     IO.puts "Please enter a username"
-    username = @io.gets "> "
+    username = @io.gets_credentials "> "
 
     IO.puts "Please enter a password" 
-    password = @io.gets "> "
+    password = @io.gets_credentials "> "
     hash_password = Bcrypt.hash_pwd_salt(password)
     deposit = accept_and_verify_deposit()
 

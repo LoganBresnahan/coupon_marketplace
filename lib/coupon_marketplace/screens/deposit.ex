@@ -30,7 +30,7 @@ defmodule CouponMarketplace.Screens.Deposit do
   end
 
   defp get_user(current_state) do
-    Repo.get_by(User, username: current_state.user_data.username)
+    Repo.get_by(User, username: current_state.user.username)
     |> case do
       nil ->
         IO.puts "*** Error with your username. Logging you out ***"
@@ -64,8 +64,6 @@ defmodule CouponMarketplace.Screens.Deposit do
     case input do
       "lo" ->
         StateTree.write(%{screen: :new_session})
-      "e" ->
-        System.stop()
       "p" ->
         %{current_state | screen: :user}
         |> StateTree.write()
@@ -77,7 +75,7 @@ defmodule CouponMarketplace.Screens.Deposit do
     IO.puts "Successfully updated your balance.\n"
 
     %{current_state | screen: :user}
-    |> update_in([:user_data, :balance], &(&1 = schema.balance))
+    |> update_in([:user, :balance], &(&1 = schema.balance))
     |> StateTree.write()
   end
 end

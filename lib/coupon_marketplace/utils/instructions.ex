@@ -1,20 +1,5 @@
 defmodule CouponMarketplace.Utils.Instructions do
-  def help(state, data \\ nil) do
-    case state do
-      :new_session ->
-        new_session()
-      :login ->
-        login()
-      :register ->
-        register(data)
-      :user ->
-        user()
-      :deposit ->
-        deposit(data)
-    end
-  end
-
-  defp new_session do
+  def help(:new_session) do
     IO.puts """
 
     Available Options:
@@ -24,8 +9,7 @@ defmodule CouponMarketplace.Utils.Instructions do
     "e" for exit
     """
   end
-
-  defp login do
+  def help(:login) do
     IO.puts """
 
     What would you like to do?
@@ -34,8 +18,19 @@ defmodule CouponMarketplace.Utils.Instructions do
     "e" for exit
     """
   end
+  def help(:user) do
+    IO.puts """
 
-  defp register(data) do
+    What would you like to do?
+    "a" add a new coupon
+    "p" for post a coupon for sale
+    "r" for request a coupon
+    "d" for deposit more money
+    "lo" for logout
+    """
+  end
+
+  def help(:register, data) do
     IO.puts """
     
     *** Error attempting to register. ***
@@ -47,18 +42,7 @@ defmodule CouponMarketplace.Utils.Instructions do
     "e" for exit
     """
   end
-
-  defp user do
-    IO.puts """
-
-    What would you like to do?
-    "p" for post a coupon for sale
-    "r" for request a coupon
-    "d" for deposit more money
-    """
-  end
-
-  defp deposit(data) do
+  def help(:deposit, data) do
     IO.puts """
 
     *** Error updating your balance ***
@@ -67,7 +51,17 @@ defmodule CouponMarketplace.Utils.Instructions do
     What would you like to do?
     "t" for try again
     "lo" for logout
-    "e" for exit
+    "p" for your profile page
+    """
+  end
+  def help(:coupon, data) do
+    IO.puts """
+
+    *** Error creating coupon ***
+    #{readable_changeset_errors(data)}
+
+    What would you like to do?
+    "lo" for logout
     "p" for your profile page
     """
   end
