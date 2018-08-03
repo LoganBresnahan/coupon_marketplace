@@ -1,13 +1,15 @@
 defmodule CouponMarketplace.Models.Transaction do
   use Ecto.Schema
   import Ecto.Changeset
+  alias CouponMarketplace.Models.User
+  alias CouponMarketplace.Models.Coupon
 
   @required_fields [:seller_id, :buyer_id, :coupon_id, :profit, :transaction_date]
 
   schema "transactions" do
-    field :seller_id, :integer
-    field :buyer_id, :integer
-    field :coupon_id, :integer
+    belongs_to :seller, User, foreign_key: :seller_id
+    belongs_to :buyer, User, foreign_key: :buyer_id
+    belongs_to :coupon, Coupon
     field :profit, :decimal
     field :transaction_date, :naive_datetime
 

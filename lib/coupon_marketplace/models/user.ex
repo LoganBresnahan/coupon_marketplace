@@ -2,6 +2,7 @@ defmodule CouponMarketplace.Models.User do
   use Ecto.Schema
   import Ecto.Changeset
   alias CouponMarketplace.Models.Coupon
+  alias CouponMarketplace.Models.Transaction
 
   @required_fields [:username, :password, :balance, :type]
 
@@ -11,6 +12,8 @@ defmodule CouponMarketplace.Models.User do
     field :balance, :decimal
     field :type, :string, default: "normal"
     has_many :coupons, Coupon
+    has_many :sales, Transaction, foreign_key: :seller_id
+    has_many :buys, Transaction, foreign_key: :buyer_id
 
     timestamps()
   end
