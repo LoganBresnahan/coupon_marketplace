@@ -3,6 +3,11 @@ defmodule CouponMarketplace.Screens.Login do
   alias CouponMarketplace.Models.User
   alias CouponMarketplace.Repo
 
+  @moduledoc """
+  The Login Screen is where a user logs in. On success,
+  we update the StateTree with some of the user's information.
+  """
+
   @io Application.get_env(:coupon_marketplace, :io)
 
   def present do
@@ -55,7 +60,7 @@ defmodule CouponMarketplace.Screens.Login do
   defp handle_login_failure(message) do
     IO.puts """
 
-    *** #{message} ***
+    ********** #{message} **********
 
     What would you like to do?
     "l" login

@@ -1,6 +1,11 @@
 defmodule CouponMarketplace.Screens.NewSession do
   alias CouponMarketplace.Interface.StateTree
 
+  @moduledoc """
+  The New Session Screen is the first thing a user
+  sees when starting the application.
+  """
+
   @io Application.get_env(:coupon_marketplace, :io)
 
   def present do

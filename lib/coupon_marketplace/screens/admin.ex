@@ -5,6 +5,11 @@ defmodule CouponMarketplace.Screens.Admin do
   alias CouponMarketplace.Models.User
   alias CouponMarketplace.Repo
 
+  @moduledoc """
+  The Admin Screen handles the options that can
+  be executed by an admin only.
+  """
+
   @io Application.get_env(:coupon_marketplace, :io)
 
   def present(current_state) do

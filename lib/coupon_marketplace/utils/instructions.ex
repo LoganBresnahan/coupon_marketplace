@@ -1,4 +1,10 @@
 defmodule CouponMarketplace.Utils.Instructions do
+  @moduledoc """
+  A module that helps display instructions when something
+  goes wrong in a Screen. This is a good place to handle
+  ecto changeset errors that need formatting.
+  """
+
   def help(:register, data) do
     IO.puts """
     

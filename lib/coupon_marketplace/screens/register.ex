@@ -4,6 +4,15 @@ defmodule CouponMarketplace.Screens.Register do
   alias CouponMarketplace.Models.User
   alias CouponMarketplace.Repo
 
+  @moduledoc """
+  The Register Screen allows a user to register.
+  When successful it takes them to the Login screen.
+
+  I have decided to hash the passwords with Bcrypt.
+  Bcrypt is well tested and the package bcrypt_elixir
+  is simple to use.
+  """
+
   @io Application.get_env(:coupon_marketplace, :io)
 
   def present do

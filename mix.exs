@@ -1,6 +1,23 @@
 defmodule CouponMarketplace.MixProject do
   use Mix.Project
 
+  @moduledoc """
+  Notes on Functions:
+
+  load_app_by_env/1 
+  is a private function I have used in a few projects.
+  Its purpose is to keep the application from starting in the test
+  evironment. Often, I like to test starting and shutting down supervised
+  processes in the supervision tree. Keeping them from starting automatically
+  when running "mix test" is convenient for this purpose.
+
+  Misc Notes:
+  
+  Inside the ecto.setup command you might notice a "seed" task.
+  This is a custom seed task and an explanation can be found in the
+  moduledoc of the file, /coupon_marketplace/lib/coupon_marketplace/mix/tasks/seed.ex
+  """
+
   def project do
     [
       app: :coupon_marketplace,
@@ -44,6 +61,5 @@ defmodule CouponMarketplace.MixProject do
   defp load_app_by_env(:test), do: []
   defp load_app_by_env(_), do: {CouponMarketplace, []}
 
-  defp elixirc_paths(:test), do: ["test/support", "lib"]
-  defp elixirc_paths(_),     do: ["lib"]
+  defp elixirc_paths(_), do: ["lib"]
 end
