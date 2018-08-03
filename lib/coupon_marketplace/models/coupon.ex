@@ -4,8 +4,7 @@ defmodule CouponMarketplace.Models.Coupon do
   alias CouponMarketplace.Models.User
   alias CouponMarketplace.Models.Brand
 
-  @required_fields [:title, :value, :status, :user_id]
-  @optional_fields [:brand_id]
+  @required_fields [:title, :value, :status, :user_id, :brand_id]
 
   schema "coupons" do
     field :title, :string
@@ -19,7 +18,9 @@ defmodule CouponMarketplace.Models.Coupon do
 
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields ++ @optional_fields)
+    |> cast(params, @required_fields)
     |> validate_required(@required_fields)
+    |> foreign_key_constraint(:user_id)
+    |> foreign_key_constraint(:brand_id)
   end
 end

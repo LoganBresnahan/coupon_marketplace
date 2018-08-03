@@ -3,13 +3,14 @@ defmodule CouponMarketplace.Models.User do
   import Ecto.Changeset
   alias CouponMarketplace.Models.Coupon
 
-  @required_fields [:username, :password, :balance]
+  @required_fields [:username, :password, :balance, :type]
 
   schema "users" do
     field :username, :string
     field :password, :string
     field :balance, :decimal
-    has_many :coupons, Coupon, on_delete: :delete_all
+    field :type, :string, default: "normal"
+    has_many :coupons, Coupon
 
     timestamps()
   end

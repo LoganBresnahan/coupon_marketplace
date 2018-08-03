@@ -29,6 +29,15 @@ defmodule CouponMarketplace.Utils.Instructions do
     "lo" for logout
     """
   end
+  def help(:marketplace) do
+    IO.puts """
+
+    What would you like to do?
+    "b" for buy a coupon
+    "u" for your profile
+    "lo" for logout
+    """
+  end
 
   def help(:register, data) do
     IO.puts """

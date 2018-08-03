@@ -31,7 +31,7 @@ defmodule CouponMarketplace.Screens.User do
         |> Task.await()
         |> handle_coupon_result(current_state)
       "p" ->
-        coupon = choose_coupon(current_state)
+        coupon = choose_coupon()
 
         Task.async(fn ->
           get_coupon(coupon, current_state)
@@ -67,11 +67,11 @@ defmodule CouponMarketplace.Screens.User do
 
   defp coupons(current_state) do
     from(coupon in Coupon,
-      join: brand in Brand,
-      where: coupon.brand_id == brand.id,
-      where: coupon.user_id == ^current_state.user.id,
+      join: brand in Brand, on: coupon.brand_id == brand.id,
+      where: coupon.brand_id == brand.id
+      and coupon.user_id == ^current_state.user.id,
       preload: [:brand],
-      order_by: brand.name,
+      order_by: [desc: brand.name],
       select: coupon
     ) |> Repo.all()
   end
@@ -134,7 +134,7 @@ defmodule CouponMarketplace.Screens.User do
     ) |> Repo.insert()
   end
 
-  defp choose_coupon(current_state) do
+  defp choose_coupon do
     IO.puts "Choose a coupon from your list by its ID."
 
     input = @io.gets("> ")
@@ -142,7 +142,7 @@ defmodule CouponMarketplace.Screens.User do
     if Regex.match?(~r/^\d+$/, input) do
       input
     else
-      choose_coupon(current_state)
+      choose_coupon()
     end
   end
 
