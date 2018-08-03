@@ -10,6 +10,7 @@ defmodule CouponMarketplace.Screens.User do
 
   def present(current_state) do
     IO.puts """
+    
     *User Profile*
 
     Username: #{current_state.user.username}

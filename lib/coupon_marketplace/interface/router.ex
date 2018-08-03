@@ -42,7 +42,8 @@ defmodule CouponMarketplace.Interface.Router do
   end
 
   defp operate(%{screen: :user, user: %{type: "admin"}}) do
-    Admin.present()
+    StateTree.read()
+    |> Admin.present()
 
     StateTree.read()
     |> operate()

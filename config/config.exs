@@ -18,7 +18,7 @@ use Mix.Config
 #
 # You can also configure a 3rd-party app:
 #
-#     config :logger, level: :info
+config :logger, level: :error
 #
 config :coupon_marketplace, ecto_repos: [CouponMarketplace.Repo]
 
