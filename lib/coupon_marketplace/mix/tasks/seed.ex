@@ -16,7 +16,7 @@ defmodule Mix.Tasks.Seed do
         balance: Decimal.new(0.00),
         type: "admin"
       }
-    )
+    ) |> Repo.insert!()
 
     user_one = User.changeset(
       %User{},
