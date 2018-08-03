@@ -19,7 +19,7 @@ defmodule CouponMarketplace.Screens.User do
     
     What would you like to do?
     "a" add a new coupon
-    "p" post a coupon for sale
+    "p" post coupon for sale or rescind from sale
     "r" request a coupon
     "d" deposit more money
     "lo" logout
@@ -29,23 +29,9 @@ defmodule CouponMarketplace.Screens.User do
 
     case input do
       "a" ->
-        {brand, title, value, status} = get_coupon_details()
-        
-        Task.async(fn -> 
-          create_or_update_brand(brand) 
-          |> create_coupon(current_state, {title, value, status}) 
-        end)
-        |> Task.await()
-        |> handle_coupon_result(current_state)
+        add_new_coupon(current_state)
       "p" ->
-        coupon = choose_coupon()
-
-        Task.async(fn ->
-          get_coupon(coupon, current_state)
-          |> update_coupon()
-        end)
-        |> Task.await()
-        |> handle_coupon_result(current_state)
+        post_for_sale(current_state)
       "r" ->
         %{current_state | screen: :marketplace}
         |> StateTree.write()
@@ -83,6 +69,17 @@ defmodule CouponMarketplace.Screens.User do
     ) |> Repo.all()
   end
 
+  defp add_new_coupon(current_state) do
+    {brand, title, value, status} = get_coupon_details()
+        
+    Task.async(fn -> 
+      create_or_update_brand(brand) 
+      |> create_coupon(current_state, {title, value, status}) 
+    end)
+    |> Task.await()
+    |> handle_coupon_result(current_state)
+  end
+
   defp get_coupon_details() do
     IO.puts "Brand Name?"
     brand = @io.gets_title("> ")
@@ -92,8 +89,7 @@ defmodule CouponMarketplace.Screens.User do
 
     value = get_value()
 
-    IO.puts "Marketplace Status? (available or unavailable)"
-    status = @io.gets("> ")
+    status = get_status()
     
     {brand, title, value, status}
   end
@@ -141,6 +137,18 @@ defmodule CouponMarketplace.Screens.User do
     ) |> Repo.insert()
   end
 
+  defp post_for_sale(current_state) do
+    coupon = choose_coupon()
+    status = get_status()
+
+    Task.async(fn ->
+      get_coupon(coupon, current_state)
+      |> update_coupon(status)
+    end)
+    |> Task.await()
+    |> handle_coupon_result(current_state)
+  end
+
   defp choose_coupon do
     IO.puts "Choose a coupon from your list by its ID."
 
@@ -153,6 +161,23 @@ defmodule CouponMarketplace.Screens.User do
     end
   end
 
+  defp get_status do
+    IO.puts "Marketplace Status? (1 available to buy or 2 unavailable to buy)"
+
+    input = @io.gets("> ")
+
+    case input do
+      "1" ->
+        IO.puts "\nA 5% house fee is collected when sold.\n"
+
+        :available
+      "2" ->
+        :unavailable
+      _ ->
+        get_status()
+    end
+  end
+
   defp get_coupon(input, current_state) do
     case Repo.get_by(Coupon, [id: input, user_id: current_state.user.id]) do
       nil ->
@@ -162,16 +187,16 @@ defmodule CouponMarketplace.Screens.User do
     end
   end
 
-  defp update_coupon(:error) do
+  defp update_coupon(:error, _) do
     IO.puts "********** Coupon Not Found **********"
 
     :error
   end
-  defp update_coupon(schema) do
+  defp update_coupon(schema, status) do
     Coupon.changeset(
       schema,
       %{
-        status: :available
+        status: status
       }
     ) |> Repo.update()
   end

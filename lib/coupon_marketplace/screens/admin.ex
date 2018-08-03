@@ -1,4 +1,5 @@
 defmodule CouponMarketplace.Screens.Admin do
+  import Ecto.Query
   alias CouponMarketplace.Interface.StateTree
   alias CouponMarketplace.Models.Transaction
   alias CouponMarketplace.Models.User
@@ -49,13 +50,20 @@ defmodule CouponMarketplace.Screens.Admin do
   end
 
   defp list_all_transactions do
-    Repo.all(Transaction)
+    from(transaction in Transaction,
+      preload: [:seller, :buyer],
+      order_by: transaction.transaction_date,
+      select: transaction
+    )
+    |> Repo.all()
     |> Enum.reduce("", fn(transaction, acc) -> 
     """
 
     ID: #{transaction.id}
     Profit: #{transaction.profit}
-    Date: #{transaction.transaction_date}\n
+    Date/Time: #{transaction.transaction_date}
+    Seller: #{transaction.seller.username}
+    Buyer: #{transaction.buyer.username}\n
     """ <> acc
     end)
   end
