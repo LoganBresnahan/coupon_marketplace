@@ -6,6 +6,16 @@ defmodule CouponMarketplace.Screens.User do
   alias CouponMarketplace.Models.Brand
   alias CouponMarketplace.Repo
 
+  @moduledoc """
+  The User Screen is where a user can view their coupons,
+  update their coupon status, and deposit more money.
+
+  I also think this module is a candidate for caching
+  the users coupons for viewing. Possibly adding them
+  to the StateTree and then updating them when
+  necessary.
+  """
+
   @io Application.get_env(:coupon_marketplace, :io)
 
   def present(current_state) do

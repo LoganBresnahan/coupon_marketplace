@@ -4,6 +4,10 @@ defmodule CouponMarketplace.Screens.Deposit do
   alias CouponMarketplace.Models.User
   alias CouponMarketplace.Repo
 
+  @moduledoc """
+  The Deposit Screen is where a user deposits more money.
+  """
+
   @io Application.get_env(:coupon_marketplace, :io)
 
   def present(current_state) do
@@ -19,15 +23,24 @@ defmodule CouponMarketplace.Screens.Deposit do
 
     cond do
       Regex.match?(~r/^\d+\.\d{2}$/, input) ->
-        Task.async(fn -> get_user(current_state) |> update_deposit(input) end)
-        |> Task.await()
-        |> handle_balance_update(current_state)
+        deposit(current_state, input)
       input == "u" ->
         %{current_state | screen: :user}
         |> StateTree.write()
       true ->
         IO.puts "********** Enter a valid number with two decimal points. Ex: 20.00 **********"
+
+        present(current_state)
     end
+  end
+
+  defp deposit(current_state, input) do
+    Task.async(fn -> 
+      get_user(current_state) 
+      |> update_deposit(input) 
+    end)
+    |> Task.await()
+    |> handle_balance_update(current_state)
   end
 
   defp get_user(current_state) do

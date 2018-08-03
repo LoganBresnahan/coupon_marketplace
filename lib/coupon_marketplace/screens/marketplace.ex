@@ -8,6 +8,18 @@ defmodule CouponMarketplace.Screens.Marketplace do
   alias CouponMarketplace.Models.Transaction
   alias CouponMarketplace.Repo
 
+  @moduledoc """
+  The Maketplace Screen is where a user can go to buy
+  a coupon.
+
+  The actual updating of the four different records are
+  wrapped inside of a Repo transaction block to ensure
+  that if one fails the transaction will be rolled back
+  and none of the records would change. This ensures that
+  the transaction process goes through for all parties,
+  Buyer, Seller, Coupon, and Transaction.
+  """
+
   @io Application.get_env(:coupon_marketplace, :io)
 
   def present(current_state) do

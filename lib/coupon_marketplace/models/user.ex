@@ -4,6 +4,15 @@ defmodule CouponMarketplace.Models.User do
   alias CouponMarketplace.Models.Coupon
   alias CouponMarketplace.Models.Transaction
 
+  @moduledoc """
+  The User Model
+
+  A unique constraint at the database level for the username.
+  Most users unless specially created outside of the interface
+  are "normal", as in, not an admin.
+  A user has associations with coupons, and transactions.
+  """
+
   @required_fields [:username, :password, :balance, :type]
 
   schema "users" do
@@ -13,7 +22,7 @@ defmodule CouponMarketplace.Models.User do
     field :type, :string, default: "normal"
     has_many :coupons, Coupon
     has_many :sales, Transaction, foreign_key: :seller_id
-    has_many :buys, Transaction, foreign_key: :buyer_id
+    has_many :purchases, Transaction, foreign_key: :buyer_id
 
     timestamps()
   end

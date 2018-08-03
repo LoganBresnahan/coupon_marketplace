@@ -3,6 +3,13 @@ defmodule CouponMarketplace.Models.Brand do
   import Ecto.Changeset
   alias CouponMarketplace.Models.Coupon
 
+  @moduledoc """
+  The Brand Model
+
+  Only one attribute, "name" which has a unique constraint at the
+  database level.
+  """
+
   @required_fields [:name]
 
   schema "brands" do

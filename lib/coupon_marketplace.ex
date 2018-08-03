@@ -7,6 +7,10 @@ defmodule CouponMarketplace do
   @moduledoc """
     CouponMarketplace is an application that gives its users
     a place to buy and sell coupons from one another.
+
+    This module uses the Application module so our app can be loaded 
+    and started by the runtime. It starts a supervision tree that includes
+    our Repo, StateTree, and Router.
   """
 
   def start(_type, _args) do

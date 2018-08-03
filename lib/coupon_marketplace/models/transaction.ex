@@ -4,6 +4,18 @@ defmodule CouponMarketplace.Models.Transaction do
   alias CouponMarketplace.Models.User
   alias CouponMarketplace.Models.Coupon
 
+  @moduledoc """
+  The Transaction Model
+
+  A transaction belongs to a coupon, and two user records (seller, buyer).
+
+  There is an index on the profit column. The reason for this, is so an
+  admin can generate a report of the total profit quickly. Another option
+  would have been to have some other object keep a running total of all
+  profits, but I prefer this. I think there would be less room
+  for error when auditing the total for different reporting scenarios.
+  """
+
   @required_fields [:seller_id, :buyer_id, :coupon_id, :profit, :transaction_date]
 
   schema "transactions" do
