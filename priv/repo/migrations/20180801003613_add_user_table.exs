@@ -7,6 +7,7 @@ defmodule CouponMarketplace.Repo.Migrations.AddUserTable do
       add :username, :string
       add :password, :string
       add :balance, :decimal, precision: 1000, scale: 2
+      add :type, :string, default: "normal"
 
       timestamps()
     end

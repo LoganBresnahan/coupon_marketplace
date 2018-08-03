@@ -43,7 +43,12 @@ defmodule CouponMarketplace.Screens.Login do
     StateTree.write(
       %{
         screen: :user,
-        user: %{id: schema.id, username: username, balance: schema.balance}
+        user: %{
+          id: schema.id, 
+          username: username, 
+          balance: schema.balance,
+          type: schema.type
+        }
       }
     )
   end

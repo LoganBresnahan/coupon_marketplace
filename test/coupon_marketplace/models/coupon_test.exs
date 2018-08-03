@@ -6,7 +6,8 @@ defmodule CouponMarketplace.Models.CouponTest do
     title: "Ghibli Museum",
     value: Decimal.new("25.00"),
     status: :available,
-    user_id: 1
+    user_id: 1,
+    brand_id: 1
   }
 
   @insufficient_attrs %{

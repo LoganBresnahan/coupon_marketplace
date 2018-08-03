@@ -8,6 +8,16 @@ defmodule Mix.Tasks.Seed do
   def run(_) do
     Repo.start_link([])
 
+    User.changeset(
+      %User{},
+      %{
+        username: "admin",
+        password: Bcrypt.hash_pwd_salt("admin"),
+        balance: Decimal.new(0.00),
+        type: "admin"
+      }
+    )
+
     user_one = User.changeset(
       %User{},
       %{
