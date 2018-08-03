@@ -1,5 +1,4 @@
 defmodule CouponMarketplace.Screens.Login do
-  alias CouponMarketplace.Utils.Instructions
   alias CouponMarketplace.Interface.StateTree
   alias CouponMarketplace.Models.User
   alias CouponMarketplace.Repo
@@ -9,7 +8,7 @@ defmodule CouponMarketplace.Screens.Login do
   def present do
     IO.puts """
 
-    *Login*
+    ~~~~~~~~~~ Login ~~~~~~~~~~
     """
     
     username = @io.gets_credentials "User Name > "
@@ -54,8 +53,15 @@ defmodule CouponMarketplace.Screens.Login do
   end
 
   defp handle_login_failure(message) do
-    IO.puts "*** #{message} ***"
-    Instructions.help(:login)
+    IO.puts """
+
+    *** #{message} ***
+
+    What would you like to do?
+    "l" login
+    "r" register
+    "e" exit
+    """
 
     input = @io.gets("> ")
     

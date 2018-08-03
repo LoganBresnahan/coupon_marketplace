@@ -9,8 +9,9 @@ defmodule CouponMarketplace.Screens.Deposit do
   def present(current_state) do
     IO.puts """
 
-    *Deposit*
-    Please Enter a deposit amount or press "p"
+    ~~~~~~~~~~ Deposit ~~~~~~~~~~
+
+    Please Enter a deposit amount or press "u"
     to go back to your profile.
     """
 
@@ -21,11 +22,11 @@ defmodule CouponMarketplace.Screens.Deposit do
         Task.async(fn -> get_user(current_state) |> update_deposit(input) end)
         |> Task.await()
         |> handle_balance_update(current_state)
-      input == "p" ->
+      input == "u" ->
         %{current_state | screen: :user}
         |> StateTree.write()
       true ->
-        IO.puts "*** Enter a valid number with two decimal points. Ex: 20.00 ***"
+        IO.puts "********** Enter a valid number with two decimal points. Ex: 20.00 **********"
     end
   end
 
@@ -33,7 +34,7 @@ defmodule CouponMarketplace.Screens.Deposit do
     Repo.get_by(User, username: current_state.user.username)
     |> case do
       nil ->
-        IO.puts "*** Error with your username. Logging you out ***"
+        IO.puts "********** Error with your username. Logging you out **********"
 
         :error
       schema ->
@@ -64,7 +65,7 @@ defmodule CouponMarketplace.Screens.Deposit do
     case input do
       "lo" ->
         StateTree.write(%{screen: :new_session})
-      "p" ->
+      "u" ->
         %{current_state | screen: :user}
         |> StateTree.write()
       _ ->
@@ -72,7 +73,7 @@ defmodule CouponMarketplace.Screens.Deposit do
     end
   end
   defp handle_balance_update({:ok, schema}, current_state) do
-    IO.puts "Successfully updated your balance.\n"
+    IO.puts "$$$$$$$$$$ Successfully updated your balance. $$$$$$$$$$\n"
 
     %{current_state | screen: :user}
     |> update_in([:user, :balance], &(&1 = schema.balance))

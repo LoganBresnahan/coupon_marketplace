@@ -11,13 +11,19 @@ defmodule CouponMarketplace.Screens.User do
   def present(current_state) do
     IO.puts """
     
-    *User Profile*
+    ~~~~~~~~~~ User Profile ~~~~~~~~~~
 
     Username: #{current_state.user.username}
     Balance: #{current_state.user.balance}
     Coupons: \n\n#{display_coupons(current_state)}
+    
+    What would you like to do?
+    "a" add a new coupon
+    "p" post a coupon for sale
+    "r" request a coupon
+    "d" deposit more money
+    "lo" logout
     """
-    Instructions.help(:user)
 
     input = @io.gets("> ")
 
@@ -49,7 +55,7 @@ defmodule CouponMarketplace.Screens.User do
       "lo" ->
         StateTree.write(%{screen: :new_session})
       _ ->
-        Instructions.help(:user)
+        present(current_state)
     end
   end
 
@@ -99,7 +105,7 @@ defmodule CouponMarketplace.Screens.User do
     if Regex.match?(~r/^\d+\.\d{2}$/, value) do
       value
     else
-      IO.puts "*** Enter a valid number with two decimal points. Ex: 20.00 ***"
+      IO.puts "********** Enter a valid number with two decimal points. Ex: 20.00 **********"
 
       get_value()
     end
@@ -157,7 +163,7 @@ defmodule CouponMarketplace.Screens.User do
   end
 
   defp update_coupon(:error) do
-    IO.puts "Coupon Not Found"
+    IO.puts "********** Coupon Not Found **********"
 
     :error
   end
@@ -186,7 +192,7 @@ defmodule CouponMarketplace.Screens.User do
     end
   end
   defp handle_coupon_result({:ok, schema}, current_state) do
-    IO.puts "Success for, #{schema.title}"
+    IO.puts "$$$$$$$$$$ Success for, #{schema.title} $$$$$$$$$$"
 
     present(current_state)
   end

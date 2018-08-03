@@ -1,7 +1,6 @@
 defmodule CouponMarketplace.Screens.Marketplace do
   require Logger
   import Ecto.Query
-  alias CouponMarketplace.Utils.Instructions
   alias CouponMarketplace.Interface.StateTree
   alias CouponMarketplace.Models.Coupon
   alias CouponMarketplace.Models.User
@@ -14,11 +13,15 @@ defmodule CouponMarketplace.Screens.Marketplace do
   def present(current_state) do
     IO.puts """
 
-    *The Marketplace*
+    ~~~~~~~~~~ The Marketplace ~~~~~~~~~~
+
     #{display_coupons(coupons_for_sale(current_state))}
-    There is a 5% house fee on the coupon value.
+    
+    What would you like to do?
+    "b" buy a coupon
+    "u" your profile
+    "lo" logout
     """
-    Instructions.help(:marketplace)
 
     input = @io.gets("> ")
 
@@ -70,13 +73,13 @@ defmodule CouponMarketplace.Screens.Marketplace do
       update_all_parties(coupon, seller, buyer, house_profit)
       |> case do
         {:ok, _} ->
-          IO.puts "Success!"
+          IO.puts "$$$$$$$$$$ Success! $$$$$$$$$$"
           
           current_state
           |> update_in([:user, :balance], &(&1 = Decimal.sub(&1, coupon.value)))
           |> StateTree.write()
         _ ->
-          IO.puts "*** Sorry, and internal error has occured during the transaction process. ***"
+          IO.puts "********** Sorry, and internal error has occured during the transaction process. **********"
       end
     else
       false ->
@@ -103,7 +106,8 @@ defmodule CouponMarketplace.Screens.Marketplace do
     Coupon.changeset(
       coupon,
       %{
-        user_id: buyer.id
+        user_id: buyer.id,
+        status: :unavailable
       }
     ) |> Repo.update!()
   end
@@ -149,7 +153,7 @@ defmodule CouponMarketplace.Screens.Marketplace do
 
     case Repo.get(Coupon, coupon_id) do
       nil ->
-        IO.puts "*** Error Finding Coupon: #{coupon_id} ***"
+        IO.puts "********** Error Finding Coupon: #{coupon_id} **********"
 
         false
       schema ->
@@ -172,7 +176,7 @@ defmodule CouponMarketplace.Screens.Marketplace do
   defp get_seller(coupon) do
     case Repo.get(User, coupon.user_id) do
       nil ->
-        IO.puts "*** Error Finding Seller ***"
+        IO.puts "********** Error Finding Seller **********"
 
         false
       schema ->
@@ -183,7 +187,7 @@ defmodule CouponMarketplace.Screens.Marketplace do
   defp get_buyer(current_state) do
     case Repo.get(User, current_state.user.id) do
       nil ->
-        IO.puts "*** Error Retrieving Your Balance ***"
+        IO.puts "********** Error Retrieving Your Balance **********"
 
         false
       schema ->
@@ -193,7 +197,7 @@ defmodule CouponMarketplace.Screens.Marketplace do
 
   defp sufficient_funds(true), do: true
   defp sufficient_funds(false) do
-    IO.puts "*** Insufficient Funds ***"
+    IO.puts "********** Insufficient Funds **********"
 
     false
   end

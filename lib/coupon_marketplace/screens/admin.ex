@@ -9,14 +9,14 @@ defmodule CouponMarketplace.Screens.Admin do
   def present(current_state) do
     IO.puts """
     
-    *Admin Interface*
+    ~~~~~~~~~~ Admin Interface ~~~~~~~~~~
 
     Logged In As: #{current_state.user.username}
 
     What would you like to do?
     "u" list all users.
     "t" list all transactions.
-    "r" calculate total marketplace revenue.
+    "c" calculate total marketplace revenue.
     "lo" logout
     """
 
@@ -27,7 +27,7 @@ defmodule CouponMarketplace.Screens.Admin do
         IO.puts list_all_users()
       "t" ->
         IO.puts list_all_transactions()
-      "r" ->
+      "c" ->
         IO.puts calculate_revenue(0, Repo.all(Transaction))
       "lo" ->
         StateTree.write(%{screen: :new_session})
