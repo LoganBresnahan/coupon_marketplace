@@ -71,12 +71,16 @@ defmodule CouponMarketplace.Screens.Login do
     input = @io.gets("> ")
     
     case input do
+      "l" ->
+        present()
       "r" ->
         StateTree.write(%{screen: :register})
       "e" -> 
         System.stop()
       _ ->
-       present()
+        IO.puts "Input not supported."
+
+        @io.press_enter
     end
   end
 end

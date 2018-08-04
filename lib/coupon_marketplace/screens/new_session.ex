@@ -30,7 +30,9 @@ defmodule CouponMarketplace.Screens.NewSession do
       "e" ->
         System.stop()
       _ ->
-        present()
+        IO.puts "Input not supported."
+
+        @io.press_enter
     end
   end
 end

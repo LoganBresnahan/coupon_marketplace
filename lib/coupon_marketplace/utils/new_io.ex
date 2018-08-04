@@ -17,6 +17,7 @@ defmodule CouponMarketplace.Utils.NewIO do
   @callback gets_credentials(String.t) :: String.t
   @callback gets_title(String.t) :: String.t
   @callback gets(String.t) :: String.t
+  @callback gets(String.t) :: String.t
 
   def gets_credentials(prompt) do
     IO.gets(prompt)
@@ -33,5 +34,9 @@ defmodule CouponMarketplace.Utils.NewIO do
     IO.gets(prompt)
     |> String.trim()
     |> String.downcase()
+  end
+
+  def press_enter do
+    IO.gets("press enter")
   end
 end
