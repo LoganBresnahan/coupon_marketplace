@@ -12,7 +12,7 @@ defmodule CouponMarketplace.MixProject do
   when running "mix test" is convenient for this purpose.
 
   Misc Notes:
-  
+
   Inside the ecto.setup command you might notice a "seed" task.
   This is a custom seed task and an explanation can be found in the
   moduledoc of the file, /coupon_marketplace/lib/coupon_marketplace/mix/tasks/seed.ex
@@ -53,7 +53,7 @@ defmodule CouponMarketplace.MixProject do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "seed"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      "test": ["ecto.create --quiet", "ecto.migrate", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end
 

@@ -13,8 +13,8 @@ defmodule CouponMarketplace.Models.Brand do
   @required_fields [:name]
 
   schema "brands" do
-    field :name, :string
-    has_many :coupons, Coupon
+    field(:name, :string)
+    has_many(:coupons, Coupon)
 
     timestamps()
   end

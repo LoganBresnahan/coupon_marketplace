@@ -15,17 +15,17 @@ defmodule CouponMarketplace.Screens.Register do
   """
 
   def present do
-    IO.puts """
+    IO.puts("""
 
     ~~~~~~~~~~ Registration ~~~~~~~~~~
-    """
+    """)
 
-    IO.puts "Please enter a username"
-    username = NewIO.gets_credentials "> "
+    IO.puts("Please enter a username")
+    username = NewIO.gets_credentials("> ")
 
-    IO.puts "Please enter a password"
-    password = NewIO.gets_credentials "> "
-    
+    IO.puts("Please enter a password")
+    password = NewIO.gets_credentials("> ")
+
     hash_password = Bcrypt.hash_pwd_salt(password)
     deposit = accept_and_verify_deposit()
 
@@ -35,13 +35,14 @@ defmodule CouponMarketplace.Screens.Register do
   end
 
   defp accept_and_verify_deposit do
-    IO.puts "Please enter a $20.00 deposit"
+    IO.puts("Please enter a $20.00 deposit")
 
-    deposit = NewIO.gets "> "
+    deposit = NewIO.gets("> ")
 
     case deposit do
       "20.00" ->
         Decimal.new(deposit)
+
       _ ->
         accept_and_verify_deposit()
     end
@@ -55,16 +56,18 @@ defmodule CouponMarketplace.Screens.Register do
         password: password,
         balance: deposit
       }
-    ) |> Repo.insert()
+    )
+    |> Repo.insert()
   end
 
   defp handle_registration({:ok, _}) do
     StateTree.write(%{screen: :login})
 
-    IO.puts "$$$$$$$$$$ Registered! $$$$$$$$$$"
+    IO.puts("$$$$$$$$$$ Registered! $$$$$$$$$$")
 
-    NewIO.press_enter
+    NewIO.press_enter()
   end
+
   defp handle_registration({:error, changeset}) do
     Instructions.help(:register, changeset)
 
@@ -73,14 +76,17 @@ defmodule CouponMarketplace.Screens.Register do
     case input do
       "r" ->
         present()
+
       "l" ->
         StateTree.write(%{screen: :login})
+
       "e" ->
         System.stop()
-      _ ->
-        IO.puts "Input not supported."
 
-        NewIO.press_enter
+      _ ->
+        IO.puts("Input not supported.")
+
+        NewIO.press_enter()
     end
   end
 end

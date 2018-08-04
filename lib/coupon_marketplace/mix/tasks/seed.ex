@@ -25,44 +25,55 @@ defmodule Mix.Tasks.Seed do
         balance: Decimal.new(0.00),
         type: "admin"
       }
-    ) |> Repo.insert!()
+    )
+    |> Repo.insert!()
 
-    user_one = User.changeset(
-      %User{},
-      %{
-        username: "Nausicaa",
-        password: Bcrypt.hash_pwd_salt("wind"),
-        balance: Decimal.new(20.00)
-      }
-    ) |> Repo.insert!()
+    user_one =
+      User.changeset(
+        %User{},
+        %{
+          username: "Nausicaa",
+          password: Bcrypt.hash_pwd_salt("wind"),
+          balance: Decimal.new(20.00)
+        }
+      )
+      |> Repo.insert!()
 
-    user_two = User.changeset(
-      %User{},
-      %{
-        username: "Ponyo",
-        password: Bcrypt.hash_pwd_salt("sea"),
-        balance: Decimal.new(40.70)
-      }
-    ) |> Repo.insert!()
+    user_two =
+      User.changeset(
+        %User{},
+        %{
+          username: "Ponyo",
+          password: Bcrypt.hash_pwd_salt("sea"),
+          balance: Decimal.new(40.70)
+        }
+      )
+      |> Repo.insert!()
 
-    user_three = User.changeset(
-      %User{},
-      %{
-        username: "Mononoke",
-        password: Bcrypt.hash_pwd_salt("wolf"),
-        balance: Decimal.new(5.25)
-      }
-    ) |> Repo.insert!()
+    user_three =
+      User.changeset(
+        %User{},
+        %{
+          username: "Mononoke",
+          password: Bcrypt.hash_pwd_salt("wolf"),
+          balance: Decimal.new(5.25)
+        }
+      )
+      |> Repo.insert!()
 
-    brand_one = Brand.changeset(
-      %Brand{},
-      %{name: "Mamma Aiuto!"}
-    ) |> Repo.insert!()
+    brand_one =
+      Brand.changeset(
+        %Brand{},
+        %{name: "Mamma Aiuto!"}
+      )
+      |> Repo.insert!()
 
-    brand_two = Brand.changeset(
-      %Brand{},
-      %{name: "Cat Bus"}
-    ) |> Repo.insert!()
+    brand_two =
+      Brand.changeset(
+        %Brand{},
+        %{name: "Cat Bus"}
+      )
+      |> Repo.insert!()
 
     Coupon.changeset(
       %Coupon{},
@@ -73,7 +84,8 @@ defmodule Mix.Tasks.Seed do
         user_id: user_one.id,
         brand_id: brand_one.id
       }
-    ) |> Repo.insert!()
+    )
+    |> Repo.insert!()
 
     Coupon.changeset(
       %Coupon{},
@@ -84,7 +96,8 @@ defmodule Mix.Tasks.Seed do
         user_id: user_one.id,
         brand_id: brand_one.id
       }
-    ) |> Repo.insert!()
+    )
+    |> Repo.insert!()
 
     Coupon.changeset(
       %Coupon{},
@@ -95,7 +108,8 @@ defmodule Mix.Tasks.Seed do
         user_id: user_two.id,
         brand_id: brand_two.id
       }
-    ) |> Repo.insert!()
+    )
+    |> Repo.insert!()
 
     Coupon.changeset(
       %Coupon{},
@@ -106,7 +120,8 @@ defmodule Mix.Tasks.Seed do
         user_id: user_two.id,
         brand_id: brand_two.id
       }
-    ) |> Repo.insert!()
+    )
+    |> Repo.insert!()
 
     Coupon.changeset(
       %Coupon{},
@@ -117,7 +132,8 @@ defmodule Mix.Tasks.Seed do
         user_id: user_three.id,
         brand_id: brand_two.id
       }
-    ) |> Repo.insert!()
+    )
+    |> Repo.insert!()
 
     Coupon.changeset(
       %Coupon{},
@@ -128,8 +144,9 @@ defmodule Mix.Tasks.Seed do
         user_id: user_three.id,
         brand_id: brand_one.id
       }
-    ) |> Repo.insert!()
-    
+    )
+    |> Repo.insert!()
+
     Supervisor.stop(Repo)
   end
 end

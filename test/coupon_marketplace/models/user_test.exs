@@ -27,7 +27,17 @@ defmodule CouponMarketplace.Models.UserTest do
 
   test "schema metadata" do
     assert User.__schema__(:source) == "users"
-    assert User.__schema__(:fields) == [:id, :username, :password, :balance, :type, :inserted_at, :updated_at]
+
+    assert User.__schema__(:fields) == [
+             :id,
+             :username,
+             :password,
+             :balance,
+             :type,
+             :inserted_at,
+             :updated_at
+           ]
+
     assert User.__schema__(:primary_key) == [:id]
     assert User.__schema__(:autogenerate_id) == {:id, :id, :id}
   end

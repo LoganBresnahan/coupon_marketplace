@@ -1,2 +1,2 @@
 import EctoEnum
-defenum StatusEnum, :status, [:available, :unavailable]
+defenum(StatusEnum, :status, [:available, :unavailable])

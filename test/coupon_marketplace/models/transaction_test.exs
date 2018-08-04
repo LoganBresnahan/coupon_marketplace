@@ -29,7 +29,18 @@ defmodule CouponMarketplace.Models.TransactionTest do
 
   test "schema metadata" do
     assert Transaction.__schema__(:source) == "transactions"
-    assert Transaction.__schema__(:fields) == [:id, :seller_id, :buyer_id, :coupon_id, :profit, :transaction_date, :inserted_at, :updated_at]
+
+    assert Transaction.__schema__(:fields) == [
+             :id,
+             :seller_id,
+             :buyer_id,
+             :coupon_id,
+             :profit,
+             :transaction_date,
+             :inserted_at,
+             :updated_at
+           ]
+
     assert Transaction.__schema__(:primary_key) == [:id]
     assert Transaction.__schema__(:autogenerate_id) == {:id, :id, :id}
   end
