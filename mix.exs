@@ -45,8 +45,7 @@ defmodule CouponMarketplace.MixProject do
       {:ecto, "~> 2.1"},
       {:ecto_enum, "~> 1.0"},
       {:bcrypt_elixir, "~> 1.0"},
-      {:decimal, "~> 1.0"},
-      {:mox, "~> 0.3", only: :test}
+      {:decimal, "~> 1.0"}
     ]
   end
 

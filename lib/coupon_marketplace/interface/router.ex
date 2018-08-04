@@ -23,7 +23,7 @@ defmodule CouponMarketplace.Interface.Router do
   values so we wouldn't need to call StateTree.read/0 before the
   operate/1 function, but I think I enjoy this pattern as it makes the
   Router responsible for giving a "state" to the operate/1 function and
-  we don't have to worry about every possible endcase for the modules.
+  we don't have to worry about every possible end-case for the modules.
   """
 
   def start_link(args) do

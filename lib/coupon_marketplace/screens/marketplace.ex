@@ -1,6 +1,7 @@
 defmodule CouponMarketplace.Screens.Marketplace do
   require Logger
   import Ecto.Query
+  alias CouponMarketplace.Utils.NewIO
   alias CouponMarketplace.Interface.StateTree
   alias CouponMarketplace.Models.Coupon
   alias CouponMarketplace.Models.User
@@ -20,8 +21,6 @@ defmodule CouponMarketplace.Screens.Marketplace do
   Buyer, Seller, Coupon, and Transaction.
   """
 
-  @io Application.get_env(:coupon_marketplace, :io)
-
   def present(current_state) do
     IO.puts """
 
@@ -35,7 +34,7 @@ defmodule CouponMarketplace.Screens.Marketplace do
     "lo" logout
     """
 
-    input = @io.gets("> ")
+    input = NewIO.gets("> ")
 
     case input do
       "b" ->
@@ -48,7 +47,7 @@ defmodule CouponMarketplace.Screens.Marketplace do
       _ ->
         IO.puts "Input not supported."
 
-        @io.press_enter
+        NewIO.press_enter
     end
   end
 
@@ -89,20 +88,20 @@ defmodule CouponMarketplace.Screens.Marketplace do
         {:ok, _} ->
           IO.puts "$$$$$$$$$$ Success! $$$$$$$$$$"
 
-          @io.press_enter
+          NewIO.press_enter
           current_state
           |> update_in([:user, :balance], &(&1 = Decimal.sub(&1, coupon.value)))
           |> StateTree.write()
         _ ->
           IO.puts "********** Sorry, and internal error has occured during the transaction process. **********"
 
-          @io.press_enter
+          NewIO.press_enter
       end
     else
       message ->
         IO.puts message
 
-        @io.press_enter
+        NewIO.press_enter
     end
   end
 
@@ -188,7 +187,7 @@ defmodule CouponMarketplace.Screens.Marketplace do
   defp choose_coupon do
     IO.puts "Select a coupon by its ID."
 
-    input = @io.gets("> ")
+    input = NewIO.gets("> ")
 
     if Regex.match?(~r/^\d+$/, input) do
       input

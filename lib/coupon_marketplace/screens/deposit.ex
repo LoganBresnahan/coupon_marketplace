@@ -1,14 +1,13 @@
 defmodule CouponMarketplace.Screens.Deposit do
   alias CouponMarketplace.Interface.StateTree
   alias CouponMarketplace.Utils.Instructions
+  alias CouponMarketplace.Utils.NewIO
   alias CouponMarketplace.Models.User
   alias CouponMarketplace.Repo
 
   @moduledoc """
   The Deposit Screen is where a user deposits more money.
   """
-
-  @io Application.get_env(:coupon_marketplace, :io)
 
   def present(current_state) do
     IO.puts """
@@ -19,7 +18,7 @@ defmodule CouponMarketplace.Screens.Deposit do
     to go back to your profile.
     """
 
-    input = @io.gets("> ")
+    input = NewIO.gets("> ")
 
     cond do
       Regex.match?(~r/^\d+\.\d{2}$/, input) ->
@@ -68,12 +67,12 @@ defmodule CouponMarketplace.Screens.Deposit do
   defp handle_balance_update({:error, nil}, _) do
     StateTree.write(%{screen: :new_session})
 
-    @io.press_enter
+    NewIO.press_enter
   end
   defp handle_balance_update({:error, changeset}, current_state) do
     Instructions.help(:deposit, changeset)
 
-    input = @io.gets("> ")
+    input = NewIO.gets("> ")
 
     case input do
       "t" ->
@@ -86,7 +85,7 @@ defmodule CouponMarketplace.Screens.Deposit do
       _ ->
         IO.puts "Input not supported."
 
-        @io.press_enter
+        NewIO.press_enter
     end
   end
   defp handle_balance_update({:ok, schema}, current_state) do
@@ -96,6 +95,6 @@ defmodule CouponMarketplace.Screens.Deposit do
     |> update_in([:user, :balance], &(&1 = schema.balance))
     |> StateTree.write()
 
-    @io.press_enter
+    NewIO.press_enter
   end
 end

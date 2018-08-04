@@ -1,6 +1,7 @@
 defmodule CouponMarketplace.Screens.User do
   import Ecto.Query
   alias CouponMarketplace.Utils.Instructions
+  alias CouponMarketplace.Utils.NewIO
   alias CouponMarketplace.Interface.StateTree
   alias CouponMarketplace.Models.Coupon
   alias CouponMarketplace.Models.Brand
@@ -15,8 +16,6 @@ defmodule CouponMarketplace.Screens.User do
   to the StateTree and then updating them when
   necessary.
   """
-
-  @io Application.get_env(:coupon_marketplace, :io)
 
   def present(current_state) do
     IO.puts """
@@ -35,7 +34,7 @@ defmodule CouponMarketplace.Screens.User do
     "lo" logout
     """
 
-    input = @io.gets("> ")
+    input = NewIO.gets("> ")
 
     case input do
       "a" ->
@@ -53,7 +52,7 @@ defmodule CouponMarketplace.Screens.User do
       _ ->
         IO.puts "Input not supported."
 
-        @io.press_enter
+        NewIO.press_enter
     end
   end
 
@@ -94,10 +93,10 @@ defmodule CouponMarketplace.Screens.User do
 
   defp get_coupon_details() do
     IO.puts "Brand Name?"
-    brand = @io.gets_title("> ")
+    brand = NewIO.gets_title("> ")
 
     IO.puts "Coupon Title?"
-    title = @io.gets_title("> ")
+    title = NewIO.gets_title("> ")
 
     value = get_value()
 
@@ -108,7 +107,7 @@ defmodule CouponMarketplace.Screens.User do
 
   defp get_value do
     IO.puts "Value?"
-    value = @io.gets("> ")
+    value = NewIO.gets("> ")
 
     if Regex.match?(~r/^\d+\.\d{2}$/, value) do
       value
@@ -164,7 +163,7 @@ defmodule CouponMarketplace.Screens.User do
   defp choose_coupon do
     IO.puts "Choose a coupon from your list by its ID."
 
-    input = @io.gets("> ")
+    input = NewIO.gets("> ")
 
     if Regex.match?(~r/^\d+$/, input) do
       input
@@ -176,7 +175,7 @@ defmodule CouponMarketplace.Screens.User do
   defp get_status do
     IO.puts "Marketplace Status? (1 available to buy or 2 unavailable to buy)"
 
-    input = @io.gets("> ")
+    input = NewIO.gets("> ")
 
     case input do
       "1" ->
@@ -214,12 +213,12 @@ defmodule CouponMarketplace.Screens.User do
   end
 
   defp handle_coupon_result(:error, _) do
-    @io.press_enter
+    NewIO.press_enter
   end
   defp handle_coupon_result({:error, changeset}, current_state) do
     Instructions.help(:coupon, changeset)
 
-    input = @io.gets("> ")
+    input = NewIO.gets("> ")
 
     case input do
       "lo" ->
@@ -229,12 +228,12 @@ defmodule CouponMarketplace.Screens.User do
       _ ->
         IO.puts "Input not supported."
 
-        @io.press_enter
+        NewIO.press_enter
     end
   end
   defp handle_coupon_result({:ok, schema}, _) do
     IO.puts "$$$$$$$$$$ Success for, #{schema.title} $$$$$$$$$$"
 
-    @io.press_enter
+    NewIO.press_enter
   end
 end

@@ -1,5 +1,6 @@
 defmodule CouponMarketplace.Screens.Admin do
   import Ecto.Query
+  alias CouponMarketplace.Utils.NewIO
   alias CouponMarketplace.Interface.StateTree
   alias CouponMarketplace.Models.Transaction
   alias CouponMarketplace.Models.User
@@ -9,8 +10,6 @@ defmodule CouponMarketplace.Screens.Admin do
   The Admin Screen handles the options that can
   be executed by an admin only.
   """
-
-  @io Application.get_env(:coupon_marketplace, :io)
 
   def present(current_state) do
     IO.puts """
@@ -26,27 +25,27 @@ defmodule CouponMarketplace.Screens.Admin do
     "lo" logout
     """
 
-    input = @io.gets("> ")
+    input = NewIO.gets("> ")
 
     case input do
       "u" ->
         IO.puts list_all_users()
 
-        @io.press_enter
+        NewIO.press_enter
       "t" ->
         IO.puts list_all_transactions()
 
-        @io.press_enter
+        NewIO.press_enter
       "c" ->
         IO.puts calculate_revenue(0, Repo.all(Transaction))
 
-        @io.press_enter
+        NewIO.press_enter
       "lo" ->
         StateTree.write(%{screen: :new_session})
       _ ->
         IO.puts "Input not supported."
 
-        @io.press_enter
+        NewIO.press_enter
     end
   end
 

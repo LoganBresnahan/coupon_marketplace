@@ -1,5 +1,6 @@
 defmodule CouponMarketplace.Screens.Register do
   alias CouponMarketplace.Utils.Instructions
+  alias CouponMarketplace.Utils.NewIO
   alias CouponMarketplace.Interface.StateTree
   alias CouponMarketplace.Models.User
   alias CouponMarketplace.Repo
@@ -13,8 +14,6 @@ defmodule CouponMarketplace.Screens.Register do
   is simple to use.
   """
 
-  @io Application.get_env(:coupon_marketplace, :io)
-
   def present do
     IO.puts """
 
@@ -22,10 +21,10 @@ defmodule CouponMarketplace.Screens.Register do
     """
 
     IO.puts "Please enter a username"
-    username = @io.gets_credentials "> "
+    username = NewIO.gets_credentials "> "
 
     IO.puts "Please enter a password"
-    password = @io.gets_credentials "> "
+    password = NewIO.gets_credentials "> "
     
     hash_password = Bcrypt.hash_pwd_salt(password)
     deposit = accept_and_verify_deposit()
@@ -38,7 +37,7 @@ defmodule CouponMarketplace.Screens.Register do
   defp accept_and_verify_deposit do
     IO.puts "Please enter a $20.00 deposit"
 
-    deposit = @io.gets "> "
+    deposit = NewIO.gets "> "
 
     case deposit do
       "20.00" ->
@@ -64,12 +63,12 @@ defmodule CouponMarketplace.Screens.Register do
 
     IO.puts "$$$$$$$$$$ Registered! $$$$$$$$$$"
 
-    @io.press_enter
+    NewIO.press_enter
   end
   defp handle_registration({:error, changeset}) do
     Instructions.help(:register, changeset)
 
-    input = @io.gets("> ")
+    input = NewIO.gets("> ")
 
     case input do
       "r" ->
@@ -81,7 +80,7 @@ defmodule CouponMarketplace.Screens.Register do
       _ ->
         IO.puts "Input not supported."
 
-        @io.press_enter
+        NewIO.press_enter
     end
   end
 end
