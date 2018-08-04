@@ -43,6 +43,8 @@ own records through the interface)
 
 *The admin is special. You can only generate Marketplace
 reports when logged in as an admin.*
+The admin username is: admin
+The password is: admin
 
 The seed file can be found at:
 /coupon_marketplace/lib/coupon_marketplace/mix/tasks/seed.ex
