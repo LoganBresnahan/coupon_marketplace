@@ -25,7 +25,7 @@ config :coupon_marketplace, CouponMarketplace.Repo,
 You will need to edit the username and password sections
 only if "postgres" isn't your development defaults.
 
-5. `mix setup`
+5. `mix ecto.setup`
 
 6. `mix run`
 
@@ -49,4 +49,4 @@ reports when logged in as an admin.*
 The seed file can be found at:
 /coupon_marketplace/lib/coupon_marketplace/mix/tasks/seed.ex
 
-3. To re-seed the database run `mix reset`
+3. To re-seed the database run `mix ecto.reset`
