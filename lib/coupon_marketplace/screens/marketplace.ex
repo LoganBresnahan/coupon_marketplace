@@ -82,16 +82,18 @@ defmodule CouponMarketplace.Screens.Marketplace do
         :ok <- sufficient_funds(buyer.balance >= coupon.value)
     do
       house_profit = Decimal.mult(coupon.value, Decimal.new(0.05))
+      buyer_new_balance = Decimal.sub(buyer.balance, coupon.value)
 
-      update_all_parties(coupon, seller, buyer, house_profit)
+      update_all_parties(coupon, seller, buyer, house_profit, buyer_new_balance)
       |> case do
         {:ok, _} ->
           IO.puts "$$$$$$$$$$ Success! $$$$$$$$$$"
 
-          NewIO.press_enter
           current_state
-          |> update_in([:user, :balance], &(&1 = Decimal.sub(&1, coupon.value)))
+          |> update_in([:user, :balance], &(&1 = buyer_new_balance))
           |> StateTree.write()
+
+          NewIO.press_enter
         _ ->
           IO.puts "********** Sorry, and internal error has occured during the transaction process. **********"
 
@@ -105,12 +107,12 @@ defmodule CouponMarketplace.Screens.Marketplace do
     end
   end
 
-  defp update_all_parties(coupon, seller, buyer, house_profit) do
+  defp update_all_parties(coupon, seller, buyer, house_profit, buyer_new_balance) do
     Repo.transaction(fn ->
       try do
         update_coupon!(coupon, buyer)
         update_seller!(seller, coupon, house_profit)
-        update_buyer!(buyer, coupon)
+        update_buyer!(buyer, buyer_new_balance)
         create_transaction_record!(coupon, seller, buyer, house_profit)
       rescue error in [Ecto.InvalidChangesetError] ->
         Logger.error inspect(error)
@@ -142,13 +144,11 @@ defmodule CouponMarketplace.Screens.Marketplace do
     ) |> Repo.update!()
   end
 
-  defp update_buyer!(buyer, coupon) do
-    new_balance = Decimal.sub(buyer.balance, coupon.value)
-
+  defp update_buyer!(buyer, buyer_new_balance) do
     User.changeset(
       buyer,
       %{
-        balance: new_balance
+        balance: buyer_new_balance
       }
     ) |> Repo.update!()
   end
