@@ -6,8 +6,8 @@ defmodule CouponMarketplace.Utils.Instructions do
   """
 
   def help(:register, data) do
-    IO.puts """
-    
+    IO.puts("""
+
     ********** Error attempting to register. **********
     #{readable_changeset_errors(data)}
 
@@ -15,10 +15,11 @@ defmodule CouponMarketplace.Utils.Instructions do
     "r" register
     "l" login
     "e" exit
-    """
+    """)
   end
+
   def help(:deposit, data) do
-    IO.puts """
+    IO.puts("""
 
     ********** Error updating your balance **********
     #{readable_changeset_errors(data)}
@@ -27,10 +28,11 @@ defmodule CouponMarketplace.Utils.Instructions do
     "t" try again
     "lo" logout
     "u" your profile page
-    """
+    """)
   end
+
   def help(:coupon, data) do
-    IO.puts """
+    IO.puts("""
 
     ********** Error creating coupon **********
     #{readable_changeset_errors(data)}
@@ -38,12 +40,12 @@ defmodule CouponMarketplace.Utils.Instructions do
     What would you like to do?
     "lo" logout
     "u" your profile page
-    """
+    """)
   end
 
   defp readable_changeset_errors(changeset) do
     changeset.errors
-    |> Enum.reduce("", fn({attribute, {message, _}}, acc) -> 
+    |> Enum.reduce("", fn {attribute, {message, _}}, acc ->
       Atom.to_string(attribute) <> " #{message}\n" <> acc
     end)
   end

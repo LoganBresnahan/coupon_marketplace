@@ -21,11 +21,11 @@ defmodule CouponMarketplace.Models.Coupon do
   @required_fields [:title, :value, :status, :user_id, :brand_id]
 
   schema "coupons" do
-    field :title, :string
-    field :value, :decimal
-    field :status, StatusEnum
-    belongs_to :user, User
-    belongs_to :brand, Brand
+    field(:title, :string)
+    field(:value, :decimal)
+    field(:status, StatusEnum)
+    belongs_to(:user, User)
+    belongs_to(:brand, Brand)
 
     timestamps()
   end

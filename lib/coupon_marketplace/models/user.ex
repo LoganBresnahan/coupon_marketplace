@@ -16,13 +16,13 @@ defmodule CouponMarketplace.Models.User do
   @required_fields [:username, :password, :balance, :type]
 
   schema "users" do
-    field :username, :string
-    field :password, :string
-    field :balance, :decimal
-    field :type, :string, default: "normal"
-    has_many :coupons, Coupon
-    has_many :sales, Transaction, foreign_key: :seller_id
-    has_many :purchases, Transaction, foreign_key: :buyer_id
+    field(:username, :string)
+    field(:password, :string)
+    field(:balance, :decimal)
+    field(:type, :string, default: "normal")
+    has_many(:coupons, Coupon)
+    has_many(:sales, Transaction, foreign_key: :seller_id)
+    has_many(:purchases, Transaction, foreign_key: :buyer_id)
 
     timestamps()
   end

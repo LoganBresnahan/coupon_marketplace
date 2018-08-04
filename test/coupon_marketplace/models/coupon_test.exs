@@ -29,7 +29,18 @@ defmodule CouponMarketplace.Models.CouponTest do
 
   test "schema metadata" do
     assert Coupon.__schema__(:source) == "coupons"
-    assert Coupon.__schema__(:fields) == [:id, :title, :value, :status, :user_id, :brand_id, :inserted_at, :updated_at]
+
+    assert Coupon.__schema__(:fields) == [
+             :id,
+             :title,
+             :value,
+             :status,
+             :user_id,
+             :brand_id,
+             :inserted_at,
+             :updated_at
+           ]
+
     assert Coupon.__schema__(:primary_key) == [:id]
     assert Coupon.__schema__(:autogenerate_id) == {:id, :id, :id}
   end

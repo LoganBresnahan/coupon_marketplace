@@ -34,7 +34,7 @@ defmodule CouponMarketplace.Interface.Router do
     StateTree.read()
     |> operate()
 
-    Supervisor.init([], [strategy: :one_for_one])
+    Supervisor.init([], strategy: :one_for_one)
   end
 
   defp operate(%{screen: :new_session}) do
@@ -89,4 +89,4 @@ defmodule CouponMarketplace.Interface.Router do
     StateTree.read()
     |> operate()
   end
-end 
+end

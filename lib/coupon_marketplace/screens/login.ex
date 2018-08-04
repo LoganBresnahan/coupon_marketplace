@@ -10,14 +10,14 @@ defmodule CouponMarketplace.Screens.Login do
   """
 
   def present do
-    IO.puts """
+    IO.puts("""
 
     ~~~~~~~~~~ Login ~~~~~~~~~~
-    """
-    
-    username = NewIO.gets_credentials "User Name > "
+    """)
 
-    password = NewIO.gets_credentials "Password > "
+    username = NewIO.gets_credentials("User Name > ")
+
+    password = NewIO.gets_credentials("Password > ")
 
     look_up_user(username, password)
   end
@@ -27,6 +27,7 @@ defmodule CouponMarketplace.Screens.Login do
     |> case do
       nil ->
         handle_login_failure("Failed to Find username")
+
       schema ->
         verify_password(username, password, schema)
     end
@@ -35,29 +36,28 @@ defmodule CouponMarketplace.Screens.Login do
   defp verify_password(username, password, schema) do
     Bcrypt.verify_pass(password, schema.password)
     |> case do
-      true -> 
+      true ->
         update_state_tree(username, schema)
+
       false ->
         handle_login_failure("Incorrect Password")
     end
   end
 
   defp update_state_tree(username, schema) do
-    StateTree.write(
-      %{
-        screen: :user,
-        user: %{
-          id: schema.id, 
-          username: username, 
-          balance: schema.balance,
-          type: schema.type
-        }
+    StateTree.write(%{
+      screen: :user,
+      user: %{
+        id: schema.id,
+        username: username,
+        balance: schema.balance,
+        type: schema.type
       }
-    )
+    })
   end
 
   defp handle_login_failure(message) do
-    IO.puts """
+    IO.puts("""
 
     ********** #{message} **********
 
@@ -65,21 +65,24 @@ defmodule CouponMarketplace.Screens.Login do
     "l" login
     "r" register
     "e" exit
-    """
+    """)
 
     input = NewIO.gets("> ")
-    
+
     case input do
       "l" ->
         present()
+
       "r" ->
         StateTree.write(%{screen: :register})
-      "e" -> 
-        System.stop()
-      _ ->
-        IO.puts "Input not supported."
 
-        NewIO.press_enter
+      "e" ->
+        System.stop()
+
+      _ ->
+        IO.puts("Input not supported.")
+
+        NewIO.press_enter()
     end
   end
 end

@@ -15,7 +15,7 @@ defmodule CouponMarketplace.Interface.StateTree do
   and details about a user's session.
   """
 
-  #Client API
+  # Client API
   def start_link([state_tree]) do
     GenServer.start_link(__MODULE__, state_tree, name: __MODULE__)
   end
@@ -28,8 +28,8 @@ defmodule CouponMarketplace.Interface.StateTree do
     GenServer.call(__MODULE__, :read)
   end
 
-  #CallBacks
-  @impl true 
+  # CallBacks
+  @impl true
   def init(state_tree) do
     {:ok, state_tree}
   end
@@ -38,6 +38,7 @@ defmodule CouponMarketplace.Interface.StateTree do
   def handle_call({:write, new_state_tree}, _from, _state_tree) do
     {:reply, new_state_tree, new_state_tree}
   end
+
   def handle_call(:read, _from, state_tree) do
     {:reply, state_tree, state_tree}
   end

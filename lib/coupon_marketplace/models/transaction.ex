@@ -19,11 +19,11 @@ defmodule CouponMarketplace.Models.Transaction do
   @required_fields [:seller_id, :buyer_id, :coupon_id, :profit, :transaction_date]
 
   schema "transactions" do
-    belongs_to :seller, User, foreign_key: :seller_id
-    belongs_to :buyer, User, foreign_key: :buyer_id
-    belongs_to :coupon, Coupon
-    field :profit, :decimal
-    field :transaction_date, :naive_datetime
+    belongs_to(:seller, User, foreign_key: :seller_id)
+    belongs_to(:buyer, User, foreign_key: :buyer_id)
+    belongs_to(:coupon, Coupon)
+    field(:profit, :decimal)
+    field(:transaction_date, :naive_datetime)
 
     timestamps()
   end
