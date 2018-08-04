@@ -173,7 +173,7 @@ defmodule CouponMarketplace.Screens.User do
   end
 
   defp get_status do
-    IO.puts "Marketplace Status? (1 available to buy or 2 unavailable to buy)"
+    IO.puts "Marketplace Status? (type 1 to make the coupon available to buy or type 2 to make it unavailable.)"
 
     input = NewIO.gets("> ")
 

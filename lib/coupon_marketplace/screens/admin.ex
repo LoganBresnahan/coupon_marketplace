@@ -29,10 +29,12 @@ defmodule CouponMarketplace.Screens.Admin do
 
     case input do
       "u" ->
+        IO.puts "---------- All Users ----------"
         IO.puts list_all_users()
 
         NewIO.press_enter
       "t" ->
+        IO.puts "--------- All Transactions ---------"
         IO.puts list_all_transactions()
 
         NewIO.press_enter
