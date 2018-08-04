@@ -162,8 +162,9 @@ defmodule CouponMarketplace.Screens.User do
     status = get_status()
 
     Task.async(fn ->
-      get_coupon(coupon, current_state)
-      |> update_coupon(status)
+      with {:ok, schema} <- get_coupon(coupon, current_state) do
+        update_coupon(schema, status)
+      end
     end)
     |> Task.await()
     |> handle_coupon_result(current_state)
@@ -208,14 +209,8 @@ defmodule CouponMarketplace.Screens.User do
         :error
 
       schema ->
-        schema
+        {:ok, schema}
     end
-  end
-
-  defp update_coupon(:error, _) do
-    IO.puts("********** Coupon Not Found **********")
-
-    :error
   end
 
   defp update_coupon(schema, status) do
@@ -229,6 +224,8 @@ defmodule CouponMarketplace.Screens.User do
   end
 
   defp handle_coupon_result(:error, _) do
+    IO.puts("********** Coupon Not Found **********")
+
     NewIO.press_enter()
   end
 

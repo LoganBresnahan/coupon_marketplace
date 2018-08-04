@@ -34,7 +34,7 @@ defmodule CouponMarketplace.Utils.Instructions do
   def help(:coupon, data) do
     IO.puts("""
 
-    ********** Error creating coupon **********
+    ********** Error creating or updating coupon **********
     #{readable_changeset_errors(data)}
 
     What would you like to do?
