@@ -1,21 +1,50 @@
 # CouponMarketplace
 
-**TODO: Add description**
+## Dependencies
+1. Elixir ~> 1.6
+2. Postgres 9 or greater.
 
-## Installation
+## How to Run
+1. Clone this repository to your computer.
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `coupon_marketplace` to your list of dependencies in `mix.exs`:
+2. `cd coupon_marketplace`
 
-```elixir
-def deps do
-  [
-    {:coupon_marketplace, "~> 0.1.0"}
-  ]
-end
+3. `mix deps.get`
+
+4. Configure your development database. The config can be found at:
+/coupon_marketplace/config/dev.exs
+
+By default it looks like this,
 ```
+config :coupon_marketplace, CouponMarketplace.Repo,
+  database: "coupon_marketplace_dev",
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost"
+```
+You will need to edit the username and password sections
+only if "postgres" isn't your development defaults.
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/coupon_marketplace](https://hexdocs.pm/coupon_marketplace).
+5. `mix setup`
 
+6. `mix run`
+
+## Other Tips
+1. Explanations for the code can be found in each
+individual file inside a @moduledoc.
+An explanation for postgres can be found at:
+/coupon_marketplace/lib/coupon_marketplace/repo.ex
+
+2. After running `mix setup` the development
+database should be populated with records.
+These are basic users and one admin user with
+usernames and passwords. (but you can also create your 
+own records through the interface)
+
+*The admin is special. You can only generate Marketplace
+reports when logged in as an admin.*
+
+The seed file can be found at:
+/coupon_marketplace/lib/coupon_marketplace/mix/tasks/seed.ex
+
+3. To re-seed the database run `mix reset`

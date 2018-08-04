@@ -10,7 +10,7 @@ defmodule Mix.Tasks.Seed do
 
   Creating a seed mix task was necessary for seeding the development database
   before execution of the application. For our purposes, we are only using a 
-  development build and I wanted there to be prexisting data when the application 
+  development build and I wanted there to be pre-existing data when the application 
   is started with "mix run" which is the reason for this task.
   """
 

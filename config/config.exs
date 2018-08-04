@@ -24,12 +24,6 @@ config :coupon_marketplace, ecto_repos: [CouponMarketplace.Repo]
 
 config :coupon_marketplace, :io, CouponMarketplace.Utils.NewIO
 
-config :coupon_marketplace, CouponMarketplace.Repo,
-  database: "coupon_marketplace_dev",
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost"
-
 # It is also possible to import configuration files, relative to this
 # directory. For example, you can emulate configuration per environment
 # by uncommenting the line below and defining dev.exs, test.exs and such.
