@@ -1,4 +1,5 @@
 defmodule CouponMarketplace.Screens.Login do
+  alias CouponMarketplace.Utils.NewIO
   alias CouponMarketplace.Interface.StateTree
   alias CouponMarketplace.Models.User
   alias CouponMarketplace.Repo
@@ -8,17 +9,15 @@ defmodule CouponMarketplace.Screens.Login do
   we update the StateTree with some of the user's information.
   """
 
-  @io Application.get_env(:coupon_marketplace, :io)
-
   def present do
     IO.puts """
 
     ~~~~~~~~~~ Login ~~~~~~~~~~
     """
     
-    username = @io.gets_credentials "User Name > "
+    username = NewIO.gets_credentials "User Name > "
 
-    password = @io.gets_credentials "Password > "
+    password = NewIO.gets_credentials "Password > "
 
     look_up_user(username, password)
   end
@@ -68,7 +67,7 @@ defmodule CouponMarketplace.Screens.Login do
     "e" exit
     """
 
-    input = @io.gets("> ")
+    input = NewIO.gets("> ")
     
     case input do
       "l" ->
@@ -80,7 +79,7 @@ defmodule CouponMarketplace.Screens.Login do
       _ ->
         IO.puts "Input not supported."
 
-        @io.press_enter
+        NewIO.press_enter
     end
   end
 end

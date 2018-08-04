@@ -1,12 +1,11 @@
 defmodule CouponMarketplace.Screens.NewSession do
   alias CouponMarketplace.Interface.StateTree
+  alias CouponMarketplace.Utils.NewIO
 
   @moduledoc """
   The New Session Screen is the first thing a user
   sees when starting the application.
   """
-
-  @io Application.get_env(:coupon_marketplace, :io)
 
   def present do
     IO.puts """
@@ -19,7 +18,7 @@ defmodule CouponMarketplace.Screens.NewSession do
     "e" exit
     """
 
-    input = @io.gets "> "
+    input = NewIO.gets "> "
 
     input
     |> case do
@@ -32,7 +31,7 @@ defmodule CouponMarketplace.Screens.NewSession do
       _ ->
         IO.puts "Input not supported."
 
-        @io.press_enter
+        NewIO.press_enter
     end
   end
 end
