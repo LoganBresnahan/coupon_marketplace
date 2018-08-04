@@ -61,6 +61,10 @@ defmodule CouponMarketplace.Screens.Register do
 
   defp handle_registration({:ok, _}) do
     StateTree.write(%{screen: :login})
+
+    IO.puts "$$$$$$$$$$ Registered! $$$$$$$$$$"
+
+    @io.press_enter
   end
   defp handle_registration({:error, changeset}) do
     Instructions.help(:register, changeset)
@@ -68,12 +72,16 @@ defmodule CouponMarketplace.Screens.Register do
     input = @io.gets("> ")
 
     case input do
+      "r" ->
+        present()
       "l" ->
         StateTree.write(%{screen: :login})
       "e" ->
         System.stop()
       _ ->
-        present()
+        IO.puts "Input not supported."
+
+        @io.press_enter
     end
   end
 end

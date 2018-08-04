@@ -46,7 +46,9 @@ defmodule CouponMarketplace.Screens.Marketplace do
       "lo" ->
         StateTree.write(%{screen: :new_session})
       _ ->
-        present(current_state)
+        IO.puts "Input not supported."
+
+        @io.press_enter
     end
   end
 
@@ -75,10 +77,10 @@ defmodule CouponMarketplace.Screens.Marketplace do
   end
 
   defp transaction(current_state) do
-    with {:ok, coupon} <- get_coupon(),
+    with {:ok, coupon} <- get_coupon(current_state),
         {:ok, seller} <- get_seller(coupon),
         {:ok, buyer} <- get_buyer(current_state),
-        true <- sufficient_funds(buyer.balance >= coupon.value)
+        :ok <- sufficient_funds(buyer.balance >= coupon.value)
     do
       house_profit = Decimal.mult(coupon.value, Decimal.new(0.05))
 
@@ -86,16 +88,21 @@ defmodule CouponMarketplace.Screens.Marketplace do
       |> case do
         {:ok, _} ->
           IO.puts "$$$$$$$$$$ Success! $$$$$$$$$$"
-          
+
+          @io.press_enter
           current_state
           |> update_in([:user, :balance], &(&1 = Decimal.sub(&1, coupon.value)))
           |> StateTree.write()
         _ ->
           IO.puts "********** Sorry, and internal error has occured during the transaction process. **********"
+
+          @io.press_enter
       end
     else
-      false ->
-        present(current_state)
+      message ->
+        IO.puts message
+
+        @io.press_enter
     end
   end
 
@@ -160,14 +167,19 @@ defmodule CouponMarketplace.Screens.Marketplace do
     ) |> Repo.insert!()
   end
 
-  defp get_coupon do
+  defp get_coupon(current_state) do
     coupon_id = choose_coupon()
 
-    case Repo.get(Coupon, coupon_id) do
+    from(coupon in Coupon,
+      where: coupon.id == ^coupon_id
+      and coupon.status == ^:available
+      and coupon.user_id != ^current_state.user.id,
+      select: coupon
+    ) 
+    |> Repo.one()
+    |> case do
       nil ->
-        IO.puts "********** Error Finding Coupon: #{coupon_id} **********"
-
-        false
+        "********** Error Finding Coupon: #{coupon_id} **********"
       schema ->
         {:ok, schema}
     end
@@ -188,9 +200,7 @@ defmodule CouponMarketplace.Screens.Marketplace do
   defp get_seller(coupon) do
     case Repo.get(User, coupon.user_id) do
       nil ->
-        IO.puts "********** Error Finding Seller **********"
-
-        false
+        "********** Error Finding Seller **********"
       schema ->
         {:ok, schema}
     end
@@ -199,18 +209,14 @@ defmodule CouponMarketplace.Screens.Marketplace do
   defp get_buyer(current_state) do
     case Repo.get(User, current_state.user.id) do
       nil ->
-        IO.puts "********** Error Retrieving Your Balance **********"
-
-        false
+        "********** Error Retrieving Your Balance **********"
       schema ->
         {:ok, schema}
     end
   end
 
-  defp sufficient_funds(true), do: true
+  defp sufficient_funds(true), do: :ok
   defp sufficient_funds(false) do
-    IO.puts "********** Insufficient Funds **********"
-
-    false
+    "********** Insufficient Funds **********"
   end
 end

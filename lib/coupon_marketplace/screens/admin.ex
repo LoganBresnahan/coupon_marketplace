@@ -31,14 +31,22 @@ defmodule CouponMarketplace.Screens.Admin do
     case input do
       "u" ->
         IO.puts list_all_users()
+
+        @io.press_enter
       "t" ->
         IO.puts list_all_transactions()
+
+        @io.press_enter
       "c" ->
         IO.puts calculate_revenue(0, Repo.all(Transaction))
+
+        @io.press_enter
       "lo" ->
         StateTree.write(%{screen: :new_session})
       _ ->
-        present(current_state)
+        IO.puts "Input not supported."
+
+        @io.press_enter
     end
   end
 

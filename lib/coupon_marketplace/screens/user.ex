@@ -41,7 +41,7 @@ defmodule CouponMarketplace.Screens.User do
       "a" ->
         add_new_coupon(current_state)
       "p" ->
-        post_for_sale(current_state)
+        post_or_rescind_coupon(current_state)
       "r" ->
         %{current_state | screen: :marketplace}
         |> StateTree.write()
@@ -51,7 +51,9 @@ defmodule CouponMarketplace.Screens.User do
       "lo" ->
         StateTree.write(%{screen: :new_session})
       _ ->
-        present(current_state)
+        IO.puts "Input not supported."
+
+        @io.press_enter
     end
   end
 
@@ -147,7 +149,7 @@ defmodule CouponMarketplace.Screens.User do
     ) |> Repo.insert()
   end
 
-  defp post_for_sale(current_state) do
+  defp post_or_rescind_coupon(current_state) do
     coupon = choose_coupon()
     status = get_status()
 
@@ -211,8 +213,8 @@ defmodule CouponMarketplace.Screens.User do
     ) |> Repo.update()
   end
 
-  defp handle_coupon_result(:error, current_state) do
-    present(current_state)
+  defp handle_coupon_result(:error, _) do
+    @io.press_enter
   end
   defp handle_coupon_result({:error, changeset}, current_state) do
     Instructions.help(:coupon, changeset)
@@ -222,13 +224,17 @@ defmodule CouponMarketplace.Screens.User do
     case input do
       "lo" ->
         StateTree.write(%{screen: :new_session})
-      _ ->
+      "u" ->
         present(current_state)
+      _ ->
+        IO.puts "Input not supported."
+
+        @io.press_enter
     end
   end
-  defp handle_coupon_result({:ok, schema}, current_state) do
+  defp handle_coupon_result({:ok, schema}, _) do
     IO.puts "$$$$$$$$$$ Success for, #{schema.title} $$$$$$$$$$"
 
-    present(current_state)
+    @io.press_enter
   end
 end

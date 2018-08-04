@@ -29,8 +29,6 @@ defmodule CouponMarketplace.Screens.Deposit do
         |> StateTree.write()
       true ->
         IO.puts "********** Enter a valid number with two decimal points. Ex: 20.00 **********"
-
-        present(current_state)
     end
   end
 
@@ -69,6 +67,8 @@ defmodule CouponMarketplace.Screens.Deposit do
 
   defp handle_balance_update({:error, nil}, _) do
     StateTree.write(%{screen: :new_session})
+
+    @io.press_enter
   end
   defp handle_balance_update({:error, changeset}, current_state) do
     Instructions.help(:deposit, changeset)
@@ -76,13 +76,17 @@ defmodule CouponMarketplace.Screens.Deposit do
     input = @io.gets("> ")
 
     case input do
+      "t" ->
+        present(current_state)
       "lo" ->
         StateTree.write(%{screen: :new_session})
       "u" ->
         %{current_state | screen: :user}
         |> StateTree.write()
       _ ->
-        present(current_state)
+        IO.puts "Input not supported."
+
+        @io.press_enter
     end
   end
   defp handle_balance_update({:ok, schema}, current_state) do
@@ -91,5 +95,7 @@ defmodule CouponMarketplace.Screens.Deposit do
     %{current_state | screen: :user}
     |> update_in([:user, :balance], &(&1 = schema.balance))
     |> StateTree.write()
+
+    @io.press_enter
   end
 end
