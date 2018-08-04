@@ -28,7 +28,7 @@ defmodule CouponMarketplace.Utils.InstructionsTest do
       assert capture_io(fn ->
                Instructions.help(:coupon, @mock_changeset)
              end) =~
-               "\n********** Error creating coupon **********\nname name can't be blank\n\n\nWhat would you like to do?\n\"lo\" logout\n\"u\" your profile page\n\n"
+               "\n********** Error creating or updating coupon **********\nname name can't be blank\n\n\nWhat would you like to do?\n\"lo\" logout\n\"u\" your profile page\n\n"
     end
   end
 end
