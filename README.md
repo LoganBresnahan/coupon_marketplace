@@ -35,7 +35,7 @@ individual file inside a @moduledoc.
 An explanation for postgres can be found at:
 /coupon_marketplace/lib/coupon_marketplace/repo.ex
 
-2. After running `mix setup` the development
+2. After running `mix ecto.setup` the development
 database should be populated with records.
 These are basic users and one admin user with
 usernames and passwords. (but you can also create your 
